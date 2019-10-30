@@ -1,3 +1,4 @@
+  
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author pc15
+ * @author Andrei
  */
 public class ChatClient {
 
@@ -25,9 +26,13 @@ public class ChatClient {
             new Receive(client);
             
             Scanner sc = new Scanner(System.in);
+            
+            System.out.println("Inserire Username: ");
+            String username = sc.nextLine();
+            
             while(true) {
                 String text = sc.nextLine();
-                new Send(client,text);
+                new Send(client, ("["+ username +"] : "+text) );
             }
             
         } catch (SocketException ex) {
