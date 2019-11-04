@@ -10,6 +10,7 @@ import java.net.SocketException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,18 +23,21 @@ public class ChatClient {
      */
     public static void main(String[] args) {
         try {
-            UDPClient client = new UDPClient(6969, "127.0.0.1", 7000);
-            new Receive(client);
+            UDPClient client = new UDPClient(6969, "127.0.0.1", 6969);
+            Receive listener = new Receive(client);
             
-            Scanner sc = new Scanner(System.in);
-            
-            System.out.println("Inserire Username: ");
-            String username = sc.nextLine();
-            
-            while(true) {
-                String text = sc.nextLine();
-                new Send(client, ("["+ username +"] : "+text) );
+            String username = JOptionPane.showInputDialog("Inserire Username");
+            if(username == null) {
+                System.exit(0);
             }
+            while(username.length()<4) {
+                username = JOptionPane.showInputDialog("L'Username deve contenere almeno 4 lettere");
+                if(username == null) {
+                    System.exit(0);
+                }
+            }
+            
+            listener.addGui(new Gui(client,username));
             
         } catch (SocketException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
