@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author pc15
+ * @author Andrei
  */
 public class Send implements Runnable{
     private UDPServer server;
@@ -31,6 +31,9 @@ public class Send implements Runnable{
             for(int i=0; i<server.getClients().size(); i++) {
                 if(i != index) {
                     server.send(i, text);
+                } else {
+                    server.send(index, "#messaggio inviato ->");
+                    server.send(index, text);
                 }
             }
         } catch (IOException ex) {
